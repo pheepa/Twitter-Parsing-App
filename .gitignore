@@ -1,14 +1,11 @@
+
+node_modules/
+TwitterParsing/dist_electron/bundled/
+TwitterParsing/dist_electron/win-unpacked/
+TwitterParsing/dist_electron/*.exe
+TwitterParsing/dist_electron/*.exe.blockmap.gz
+TwitterParsing/dist_electron/*.yaml
+
 .idea/
 __pycache__/
 .ipynb_checkpoints/
-*.pyc
-# npm gitignore
-#########
- 
-# Dependency directories
-node_modules/
-dist_electron/bundled
-dist_electron/win-unpacked
-dist_electron/*.exe
-
-
