@@ -1,7 +1,8 @@
-# test
+# Twitter-Parsing-App
 
 ## Project setup
 ```
+cd TwitterParsing
 npm install
 ```
 
