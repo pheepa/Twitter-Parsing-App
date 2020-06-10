@@ -1,10 +1,10 @@
 
 node_modules/
-TwitterParsing/dist_electron/bundled/
-TwitterParsing/dist_electron/win-unpacked/
-TwitterParsing/dist_electron/*.exe
-TwitterParsing/dist_electron/*.exe.blockmap.gz
-TwitterParsing/dist_electron/*.yaml
+Work/Scripts/TwitterParsing/dist_electron/bundled/
+Work/Scripts/TwitterParsing/dist_electron/win-unpacked/
+Work/Scripts/TwitterParsing/dist_electron/*.exe
+Work/Scripts/TwitterParsing/dist_electron/*.exe.blockmap.gz
+Work/Scripts/TwitterParsing/dist_electron/*.yaml
 
 .idea/
 __pycache__/
