@@ -6,7 +6,6 @@ import django.db.models.deletion
 import django.utils.timezone
 import twitter_parsing.models
 
-
 class Migration(migrations.Migration):
 
     initial = True
@@ -23,7 +22,7 @@ class Migration(migrations.Migration):
                 ('hashtag', models.CharField(max_length=100, verbose_name='хэштег')),
                 ('date', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Дата запроса')),
                 ('number_tweets', models.IntegerField(verbose_name='количество твитов')),
-                ('result_negative', models.IntegerField(blank=True, default=twitter_parsing.models.predict, verbose_name='уровень негатива в процентах')),
+                ('result_negative', models.IntegerField(blank=True, default='none', verbose_name='уровень негатива в процентах')),
                 ('from_date', models.DateTimeField(verbose_name='с ')),
                 ('until_date', models.DateTimeField(verbose_name='до')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

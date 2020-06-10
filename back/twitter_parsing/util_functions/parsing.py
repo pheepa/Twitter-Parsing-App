@@ -13,7 +13,9 @@ from twitter_scraper.query import query_tweets, query_tweets_from_user
 
 import datetime as dt
 
+import numpy as np
 import matplotlib.pyplot as plt
+
 
 from predict import predictor
 
@@ -74,9 +76,11 @@ class Parser():
             self.sentiments.append(self.predictor.predict_one_sample(t))  # new
 
         f = plt.figure(figsize=(8, 6))
+        # 300 represents number of points to make between T.min and T.max
+
         plt.plot(self.sentiments)
         if mode == "user":
-            f.suptitle('Sentiment analysis of {} {} on last {} tweets '.format(query, mode, limit))
+            f.suptitle('Sentiment analysis of {} {} on last {} tweets '.format(query, mode, len(self.sentiments)))
         else:
             f.suptitle('Sentiment analysis of {} {} from {}, to {}'.format(query, mode, from_date, until_date))
         plt.xlabel('tweets')

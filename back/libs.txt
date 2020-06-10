@@ -1,0 +1,13 @@
+conda install -c pytorch pytorch
+conda install -c anaconda pandas
+conda install -c conda-forge nltk
+conda install -c conda-forge matplotlib
+conda install -c conda-forge beautifulsoup4
+pip install contractions
+pip install inflect
+pip install Django
+pip install djoser
+pip install djangorestframework
+pip install django-cors-headers
+pip install twitterscraper
+

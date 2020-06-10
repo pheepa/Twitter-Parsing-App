@@ -1,0 +1,8 @@
+beautifulsoup4==4.9.1
+contractions==0.0.24
+Django==3.0.7
+django-cors-headers==3.3.0
+djangorestframework==3.11.0
+djoser==2.0.3
+inflect==4.1.0
+twitterscraper==1.4.0

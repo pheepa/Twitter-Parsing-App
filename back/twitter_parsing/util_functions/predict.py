@@ -82,7 +82,8 @@ class Predictor():
     
         return features
     
-    def predict_one_sample(self, tweet): 
+    def predict_one_sample(self, tweet):
+        self.batch_size = 1
         h = self.model.init_hidden(self.batch_size)
 
         tweet = self.__tokenize_one_sample(tweet)
@@ -117,4 +118,3 @@ class Predictor():
     
 
 predictor = Predictor(initializer)
-        
