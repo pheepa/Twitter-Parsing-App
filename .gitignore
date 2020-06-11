@@ -9,3 +9,5 @@ Work/Scripts/TwitterParsing/dist_electron/*.yaml
 .idea/
 __pycache__/
 .ipynb_checkpoints/
+
+*.swp
