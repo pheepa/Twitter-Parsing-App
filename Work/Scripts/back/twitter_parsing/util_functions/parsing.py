@@ -1,10 +1,4 @@
-# def parsing_predict_account_mean(name,date_from,date_until):
-#     pass
-#     return 0,100
 
-# def parsing_hashtag():
-#     pass
-#     return [] #twits boobs
 import sys
 import re
 # from twitterscraper import query_tweets

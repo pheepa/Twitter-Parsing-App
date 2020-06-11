@@ -1,14 +1,13 @@
 @echo off
-@rem это комментарий 
-@rem echo - речатает на экран  %~dp0TwitterParsing
 
-start %USERPROFILE%\AppData\Local\Programs\TwitterParsing\TwitterParsing.exe
+start %USERPROFILE%\AppData\Local\Programs\TwitterParsing\TwitterParsing.exe > nul  ^&  exit
 
 cd back
+
+call activate base
+
 python manage.py runserver
 
+call conda deactivate
 
-
-
-pause
 exit
