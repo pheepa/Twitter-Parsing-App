@@ -2,14 +2,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 from .models import Inquiry, TweetAccount, TweetInquiry, Writing, Account
 from django.contrib.auth.models import User
-from django.utils import timezone
 
-# import folder with util functions
 import sys
+
 sys.path.insert(1, 'util_functions')
 sys.path.insert(3, '../')
 from predict import predictor
-import datetime
 from parsing import parser
 
 

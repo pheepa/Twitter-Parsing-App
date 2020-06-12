@@ -19,7 +19,6 @@ from predict import predictor
 from parsing import parser
 
 
-
 # Inquiry
 class InquiryCreateView(generics.CreateAPIView):
     serializer_class = InquiryCreateSerializer
@@ -28,7 +27,7 @@ class InquiryCreateView(generics.CreateAPIView):
 
 class GetInquiriesView(generics.ListAPIView):
     serializer_class = InquiryListSerializer
-    queryset = Inquiry.objects.all() 
+    queryset = Inquiry.objects.all()
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
     def get_queryset(self):
@@ -39,12 +38,12 @@ class InquiryDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     serializer_class = InquiryDetailSerializer
     queryset = Inquiry.objects.all()
-    permission_classes = (IsOwnerOrReadOnly,)  
-
-
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
 # Account
+
+
 class AccountCreateView(generics.CreateAPIView):
     serializer_class = AccountCreateSerializer
 
@@ -57,11 +56,11 @@ class GetAccountsView(generics.ListAPIView):
     def get_queryset(self):
         return Account.objects.filter(user_id=self.request.user).prefetch_related('Atweets')
 
+
 class AccountDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AccountDetailSerializer
     queryset = Account.objects.all()
     permission_classes = (IsOwnerOrReadOnly,)
-
 
 
 # Writing
@@ -77,11 +76,11 @@ class WritingListView(generics.ListAPIView):
     def get_queryset(self):
         return Writing.objects.filter(user_id=self.request.user)
 
+
 class WritingDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = WritingDetailSerializer
     queryset = Writing.objects.all()
     permission_classes = (IsOwnerOrReadOnly,)
-
 
 
 # User
@@ -109,7 +108,7 @@ class ChartingAccount(APIView):
     permission_classes = ()
 
     def post(self, request, ):
-        print('*'*20, sys.path)
+        print('*' * 20, sys.path)
         name = request.data.get("name")
         limit = int(request.data.get("months"))
         parser.plot(limit=limit, mode='user', query=name)
@@ -121,6 +120,7 @@ class ChartingAccount(APIView):
             return Response({"bits": data})
         except:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ChartingHashtag(APIView):
     permission_classes = ()
@@ -134,8 +134,6 @@ class ChartingHashtag(APIView):
             image = File(f)
             data = base64.b64encode(image.read())
             f.close()
-            return Response({"bits":data})
+            return Response({"bits": data})
         except:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-
-

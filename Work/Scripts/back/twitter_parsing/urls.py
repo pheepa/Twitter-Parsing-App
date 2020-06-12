@@ -1,14 +1,9 @@
-
 from django.urls import path
-from .views import InquiryCreateView ,InquiryDetailView, GetInquiriesView
+from .views import InquiryCreateView, InquiryDetailView, GetInquiriesView
 from .views import WritingCreateView, WritingListView, WritingDetailView
 from .views import UserCreate, LoginView
 from .views import AccountCreateView, GetAccountsView, AccountDetailView
 from .views import ChartingAccount, ChartingHashtag
-
-
-
-
 
 urlpatterns = [
     path('inquiry/create/', InquiryCreateView.as_view()),

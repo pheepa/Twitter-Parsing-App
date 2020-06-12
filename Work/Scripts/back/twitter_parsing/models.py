@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-import datetime
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -23,20 +22,22 @@ class Account(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField("дата публикации", default=timezone.now)
     negative = models.IntegerField("уровень негатива в процентах", blank=True, default=50)
-    number_tweets = models.IntegerField("количество твитов",default=0)
+    number_tweets = models.IntegerField("количество твитов", default=0)
 
 
 class TweetAccount(models.Model):
     objects = models.Manager()
-    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='Atweets',)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='Atweets', )
     text = models.TextField("текст твита")
     negative = models.BooleanField("сентимент", blank=True)
+
 
 class TweetInquiry(models.Model):
     objects = models.Manager()
     inquiry = models.ForeignKey(Inquiry, on_delete=models.CASCADE, related_name='Itweets', )
     text = models.TextField("текст твита")
     negative = models.BooleanField("сентимент", blank=True)
+
 
 class Writing(models.Model):
     objects = models.Manager()

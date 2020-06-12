@@ -5,13 +5,8 @@ import sys
 import inspect
 
 sys.path.insert(0, 'twitter_parsing/util_functions')
-sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))))
-from train import Initializer
-from predict import Predictor
-# from parsing import Parser
-
-def __predictor(tweet):
-    return predictor.predict_one_sample(tweet=tweet)
+sys.path.insert(1, os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))))
 
 
 def main():
@@ -29,7 +24,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-       
-    
-    
-    

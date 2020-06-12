@@ -1,13 +1,3 @@
-# def predict_one_sample(string):
-#     pass
-
-# def predict_one_tweet(string):
-#     pass
-#     return True,False
-
-# def predict_account_mean(name,date_from,date_until):
-#     pass
-#     return 0,100
 
 import re, string, unicodedata
 import nltk
@@ -18,11 +8,11 @@ from nltk import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
-
 from string import punctuation
 import itertools
 
 import nltk
+
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
@@ -36,8 +26,10 @@ import torch.nn as nn
 import sys
 from train import initializer
 
+
 class Predictor():
     def __init__(self, initializer):
+<<<<<<< HEAD
         
         """
         Цель: Получение модели из initializer, обработка текста и предсказываение
@@ -47,11 +39,14 @@ class Predictor():
 
         """
         
+=======
+
+>>>>>>> 5014a9a0e7a27ad265c6ea44e3822afb1f0a6aa0
         self.word_to_int = initializer.word_to_int
         self.model = initializer.loaded_net
         self.train_on_gpu = False
         self.batch_size = initializer.batch_size
-    
+
     def __cleanhtml(self, raw_html):
     	"""
     	Цель: Удаление html тегов из текста 
@@ -63,7 +58,7 @@ class Predictor():
         cleantext = re.sub(cleanr, ' ', raw_html)
         withoutdoublespaces = re.sub(' +', ' ', cleantext)
         return withoutdoublespaces
-    
+
     def __tokenize_one_sample(self, sent):
 	"""
 	Цель: Токенизация
@@ -80,7 +75,7 @@ class Predictor():
         pre_sent = self.__cleanhtml(pre_sent)
         pre_sent = re.sub('[0-9]+', '', pre_sent)
         pre_sent = re.sub("\'", ' ', pre_sent)
-        pre_sent = pre_sent.translate(str.maketrans('','',punctuation))
+        pre_sent = pre_sent.translate(str.maketrans('', '', punctuation))
 
         pre_sent = word_tokenize(pre_sent)
         sent = []
@@ -88,9 +83,9 @@ class Predictor():
             word = lem.lemmatize(word)
             if word not in stopwords.words('english'):
                 sent.append(word)
-    
+
         return sent
-    
+
     def __pad_features_one_sample(self, tweet_int, seq_length=280):
     	"""
     	Цель: Паддинг
@@ -106,9 +101,9 @@ class Predictor():
         ## for each review, I grab that review
         if len(tweet_int):
             features[-len(tweet_int):] = np.array(tweet_int)[:seq_length]
-    
+
         return features
-    
+
     def predict_one_sample(self, tweet):
     	"""
     	Цель: Подготовка и определение сентимента текста
@@ -133,9 +128,8 @@ class Predictor():
             batch.append(inputs)
         inputs = torch.from_numpy(np.array(batch))
 
-        if(self.train_on_gpu):
+        if (self.train_on_gpu):
             inputs = inputs.cuda()
-
 
         # Creating new variables for the hidden state, otherwise
         # we'd backprop through the entire training history
@@ -144,11 +138,10 @@ class Predictor():
         # get predicted outputs
         output, h = self.model(inputs, h)
 
-
         # convert output probabilities to predicted class (0 or 1)
-        pred = sum(output)/self.batch_size  # rounds to the nearest integer
-        
-        return pred.data 
-    
+        pred = sum(output) / self.batch_size  # rounds to the nearest integer
+
+        return pred.data
+
 
 predictor = Predictor(initializer)
