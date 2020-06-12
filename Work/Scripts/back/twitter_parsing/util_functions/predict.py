@@ -43,11 +43,11 @@ class Predictor():
         return withoutdoublespaces
 
     def __tokenize_one_sample(self, sent):
-	    """
-	    Цель: Токенизация
-	    Вход: self, sent
-	    Выход:sent - токенизированное предложение
-	    Автор: Абаполов Филипп
+        """
+        Цель: Токенизация
+        Вход: self, sent
+        Выход:sent - токенизированное предложение
+        Автор: Абаполов Филипп
         """
         lem = WordNetLemmatizer()
         pre_sent = sent.lower()
