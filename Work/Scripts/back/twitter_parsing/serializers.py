@@ -57,7 +57,7 @@ Inquiry в базе данных, при этом перед добавлени�
         for tweet in tweets:
             newTweet = TweetInquiry()
             newTweet.inquiry_id = inquiry.id
-            newTweet.text = tweet[2:-1]
+            newTweet.text = tweet
             newTweet.negative = predictor.predict_one_sample(tweet=newTweet.text) > 0.5
             if newTweet.negative:
                 npositive += 1
@@ -151,7 +151,7 @@ class AccountCreateSerializer(serializers.ModelSerializer):
         for tweet in tweets:
             newTweet = TweetAccount()
             newTweet.account_id = account.id
-            newTweet.text = tweet[2:-1]
+            newTweet.text = tweet
             newTweet.negative = predictor.predict_one_sample(tweet=newTweet.text) > 0.5
 
             if newTweet.negative:
