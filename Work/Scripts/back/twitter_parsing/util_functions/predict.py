@@ -1,15 +1,9 @@
-
-import re, string, unicodedata
-import nltk
-import contractions
-import inflect
-from bs4 import BeautifulSoup
-from nltk import word_tokenize, sent_tokenize
+import re
+from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 from string import punctuation
-import itertools
 
 import nltk
 
@@ -17,52 +11,46 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
 
-import sys
-import pandas as pd
 import numpy as np
 import torch
-import torch.nn as nn
 
-import sys
 from train import initializer
 
 
 class Predictor():
     def __init__(self, initializer):
-        
         """
         Цель: Получение модели из initializer, обработка текста и предсказываение
-	Вход: self, initializer
-	Выход:
-	Автор: Абаполов Филипп
+        Вход: self, initializer
+        Выход:
+        Автор: Абаполов Филипп
 
         """
-        
         self.word_to_int = initializer.word_to_int
         self.model = initializer.loaded_net
         self.train_on_gpu = False
         self.batch_size = initializer.batch_size
 
     def __cleanhtml(self, raw_html):
-    	"""
-    	Цель: Удаление html тегов из текста 
-	Вход: self, raw_html
-	Выход:withoutdoublespaces - текст без тегов
-	Автор: Абаполов Филипп
-	"""
+        """
+        Цель: Удаление html тегов из текста
+        Вход: self, raw_html
+        Выход:withoutdoublespaces - текст без тегов
+        Автор: Абаполов Филипп
+        """
         cleanr = re.compile('<.*?>')
         cleantext = re.sub(cleanr, ' ', raw_html)
         withoutdoublespaces = re.sub(' +', ' ', cleantext)
         return withoutdoublespaces
 
     def __tokenize_one_sample(self, sent):
-	"""
-	Цель: Токенизация
-	Вход: self, sent
-	Выход:sent - токенизированное предложение
-	Автор: Абаполов Филипп
+        """
+        Цель: Токенизация
+        Вход: self, sent
+        Выход:sent - токенизированное предложение
+        Автор: Абаполов Филипп
 
-	"""
+        """
         lem = WordNetLemmatizer()
 
         pre_sent = sent.lower()
@@ -83,13 +71,13 @@ class Predictor():
         return sent
 
     def __pad_features_one_sample(self, tweet_int, seq_length=280):
-    	"""
-    	Цель: Паддинг
-	Вход: self, tweet_int, seq_length=280
-	Выход:sent - последовательность чисел фиксированной длины
-	Автор: Абаполов Филипп
+        """
+        Цель: Паддинг
+        Вход: self, tweet_int, seq_length=280
+        Выход:sent - последовательность чисел фиксированной длины
+        Автор: Абаполов Филипп
 
-    	"""
+        """
         tweet_int = tweet_int[0]
         ## getting the correct rows x cols shape
         features = np.zeros(seq_length, dtype=int)
@@ -101,13 +89,13 @@ class Predictor():
         return features
 
     def predict_one_sample(self, tweet):
-    	"""
-    	Цель: Подготовка и определение сентимента текста
-	Вход: self, tweet
-	Выход:pred.data  - число от 0 до 1 - вероятность того, что текст положительный
-	Автор: Абаполов Филипп
+        """
+        Цель: Подготовка и определение сентимента текста
+        Вход: self, tweet
+        Выход:pred.data  - число от 0 до 1 - вероятность того, что текст положительный
+        Автор: Абаполов Филипп
 
-    	"""
+        """
         self.batch_size = 1
         h = self.model.init_hidden(self.batch_size)
 
@@ -122,9 +110,9 @@ class Predictor():
         batch = []
         for _ in range(self.batch_size):
             batch.append(inputs)
-        inputs = torch.from_numpy(np.array(batch))
+            inputs = torch.from_numpy(np.array(batch))
 
-        if (self.train_on_gpu):
+        if self.train_on_gpu:
             inputs = inputs.cuda()
 
         # Creating new variables for the hidden state, otherwise

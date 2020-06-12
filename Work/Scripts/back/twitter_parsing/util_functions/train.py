@@ -1,29 +1,21 @@
-# for train
-# call this:
-#     initializer = Initializer();
-#     initializer.train()
-
 import sys
-import pandas as pd
-import numpy as np
-
 import json
+
+import torch
+import torch.nn as nn
 
 json_file_path = sys.path[0] + "/word_to_int.json"
 with open(json_file_path, 'r') as j:
     word_to_int = json.loads(j.read())
-
-import torch
-import torch.nn as nn
 
 
 class Initializer():
     def __init__(self):
         """
         Цель: Подготовить датасет для обучения(токенизация и тд.), инициализировать модель
-	Вход: self, data
-	Выход:
-	Автор: Абаполов Филипп
+        Вход: self, data
+        Выход:
+        Автор: Абаполов Филипп
 
         """
         self.word_to_int = word_to_int
@@ -39,27 +31,26 @@ class Initializer():
                                         self.hidden_dim, self.n_lstm_layers)
 
     def train(self):
-    	"""
-    	Цель: Загрузка предобученных весов
-	Вход: self
-	Выход:
-	Автор: Абаполов Филипп
+        """
+        Цель: Загрузка предобученных весов
+        Вход: self
+        Выход:
+        Автор: Абаполов Филипп
 
-    	"""
-        self.loaded_net.load_state_dict(torch.load(sys.path[0] + "/weights_1_epoch_gpu.pth", 
-                                                   map_location=('cpu')))
+        """
+        self.loaded_net.load_state_dict(torch.load(sys.path[0] + "/weights_1_epoch_gpu.pth", map_location=('cpu')))
 
 
 class SentimentLSTM(nn.Module):
     def __init__(self, vocab_size, output_size, embedding_dim, hidden_dim, n_lstm_layers, drop_prob=0.5):
-    	"""
-    	Цель: класс LSTM модели
-	Вход: vocab_size, output_size, embedding_dim, hidden_dim, n_lstm_layers, drop_prob - параметры сети
-	Выход:
-	Автор: Абаполов Филипп
+        """
+        Цель: класс LSTM модели
+        Вход: vocab_size, output_size, embedding_dim, hidden_dim, n_lstm_layers, drop_prob - параметры сети
+        Выход:
+        Автор: Абаполов Филипп
 
-    	"""
-    	
+        """
+
         super(SentimentLSTM, self).__init__()
 
         self.train_on_gpu = False
@@ -78,50 +69,48 @@ class SentimentLSTM(nn.Module):
 
         self.fc = nn.Linear(in_features=hidden_dim, out_features=output_size)
         self.sig = nn.Sigmoid()
-        
+
     def forward(self, x, hidden):
-	    """
-	    Цель: Выход нейронной сети 
-	    Вход: self, x, hidden(объект и скрытые слои сети)
-	    Выход:
-	    Автор: Абаполов Филипп
-	    """
-	    batch_size = x.size(0)
+        """
+        Цель: Выход нейронной сети
+        Вход: self, x, hidden(объект и скрытые слои сети)
+        Выход:
+        Автор: Абаполов Филипп
+        """
+        batch_size = x.size(0)
 
-	    #embed = self.embedding(x) так было до (Фил - ла пук)
-	    embed = self.embedding(x.long()) #так после
+        embed = self.embedding(x.long())
 
-	    lstm_out, hidden = self.lstm(embed, hidden)
-	    # stack up lstm outputs
-	    lstm_out = lstm_out.contiguous().view(-1, self.hidden_dim)
+        lstm_out, hidden = self.lstm(embed, hidden)
+        # stack up lstm outputs
+        lstm_out = lstm_out.contiguous().view(-1, self.hidden_dim)
 
-	    # dropout and fully connected layer
-	    out = self.dropout(lstm_out)
-	    out = self.fc(out)
+        # dropout and fully connected layer
+        out = self.dropout(lstm_out)
+        out = self.fc(out)
 
-	    # sigmoid function
-	    sig_out = self.sig(out)
+        # sigmoid function
+        sig_out = self.sig(out)
 
-	    # reshape to be batch_size first
-	    sig_out = sig_out.view(batch_size, -1)
-	    sig_out = sig_out[:, -1] # get last batch of labels
+        # reshape to be batch_size first
+        sig_out = sig_out.view(batch_size, -1)
+        sig_out = sig_out[:, -1]  # get last batch of labels
 
-	    # return last sigmoid output and hidden state
-	    return sig_out, hidden
-    
+        # return last sigmoid output and hidden state
+        return sig_out, hidden
+
     def init_hidden(self, batch_size):
         """
-        Цель: Инициализация скрытых слоев 
-	Вход: self, batch_size
-	Выход:
-	Автор: Абаполов Филипп
-
+        Цель: Инициализация скрытых слоев
+        Вход: self, batch_size
+        Выход:
+        Автор: Абаполов Филипп
         """
         # Create two new tensors with sizes n_layers x batch_size x hidden_dim,
         # initialized to zero, for hidden state and cell state of LSTM
         weight = next(self.parameters()).data
 
-        if (self.train_on_gpu):
+        if self.train_on_gpu:
             hidden = (weight.new(self.n_lstm_layers, batch_size, self.hidden_dim).zero_().cuda(),
                       weight.new(self.n_lstm_layers, batch_size, self.hidden_dim).zero_().cuda())
         else:
