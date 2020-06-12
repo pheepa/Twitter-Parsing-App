@@ -1,7 +1,5 @@
 import sys
 
-
-df[df['col'] == 5]
 from twitterscraper.query import query_tweets, query_tweets_from_user
 
 import datetime as dt
