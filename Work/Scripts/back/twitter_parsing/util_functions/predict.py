@@ -24,7 +24,6 @@ class Predictor():
         Вход: self, initializer
         Выход:
         Автор: Абаполов Филипп
-
         """
         self.word_to_int = initializer.word_to_int
         self.model = initializer.loaded_net
@@ -33,26 +32,24 @@ class Predictor():
 
     def __cleanhtml(self, raw_html):
         """
-        Цель: Удаление html тегов из текста
-        Вход: self, raw_html
-        Выход:withoutdoublespaces - текст без тегов
-        Автор: Абаполов Филипп
-        """
+        Цель: Удаление html тегов из текста 
+	    Вход: self, raw_html
+	    Выход:withoutdoublespaces - текст без тегов
+	    Автор: Абаполов Филипп
+	    """
         cleanr = re.compile('<.*?>')
         cleantext = re.sub(cleanr, ' ', raw_html)
         withoutdoublespaces = re.sub(' +', ' ', cleantext)
         return withoutdoublespaces
 
     def __tokenize_one_sample(self, sent):
-        """
-        Цель: Токенизация
-        Вход: self, sent
-        Выход:sent - токенизированное предложение
-        Автор: Абаполов Филипп
-
+	    """
+	    Цель: Токенизация
+	    Вход: self, sent
+	    Выход:sent - токенизированное предложение
+	    Автор: Абаполов Филипп
         """
         lem = WordNetLemmatizer()
-
         pre_sent = sent.lower()
 
         # delete punctuation and html tags and numbers
