@@ -1,13 +1,6 @@
-# def parsing_predict_account_mean(name,date_from,date_until):
-#     pass
-#     return 0,100
-
-# def parsing_hashtag():
-#     pass
-#     return [] #twits boobs
 import sys
 import re
-# from twitterscraper import query_tweets
+
 
 from twitter_scraper.query import query_tweets, query_tweets_from_user
 
@@ -23,6 +16,13 @@ from predict import predictor
 
 class Parser():
     def __init__(self, predictor):
+    	"""
+	Цель: Парсинг твиттера и построение графиков
+	Вход: self, predictor
+	Выход:
+	Автор: Абаполов Филипп
+
+    	"""
         self.query = ''
         self.today = dt.date.today()
         self.yesterday = dt.date.today() - dt.timedelta(days=1)
@@ -33,6 +33,13 @@ class Parser():
         self.sentiments = []
 
     def __parse(self, from_date, until_date, query, limit, mode="user"):
+    	"""
+    	Цель: Парсинг твиттера по запросу
+	Вход: self, from_date, until_date, query, limit, mode="user" - начальная дата, конечная дата, запрос, лимит и мод парсинга user/hashtag
+	Выход:
+	Автор: Абаполов Филипп
+
+    	"""
         self.sentiments = []
         self.tweets = []
         self.query = query
@@ -47,26 +54,43 @@ class Parser():
         for t in q_t[:limit]:
             self.tweets.append(str(t.text.encode('utf-8').decode('ISO-8859-1')))
 
-            # if '\\x' not in str(t.text.encode('utf-8')):
-            #     self.tweets.append(str(t.text.encode('utf-8').decode('ISO-8859-1')))
 
     def predict_user(self, from_date=dt.date.today() - dt.timedelta(days=1),
                      until_date=dt.date.today(), query='potus', limit=5, mode="user"):
+        """
+        Цель: Парсинг твиттера по запросу
+	Вход: self, from_date=dt.date.today() - dt.timedelta(days=1), until_date=dt.date.today(), query='potus', limit=5, mode="user"
+	 - начальная дата, конечная дата, запрос, лимит и мод парсинга u 
+	Выход:self.tweets
+	Автор: Абаполов Филипп
+
+        """
         self.__parse(from_date, until_date, query, limit, mode)
 
-        # for t in self.tweets:
-        #     self.sentiments.append(self.predictor.predict_one_sample(t))
-        # if len(self.sentiments) == 0:
-        #     return self.tweets, -1
         return self.tweets
 
     def predict_hashtag(self, from_date=dt.date.today() - dt.timedelta(days=1),
                         until_date=dt.date.today(), query='potus', limit=5):
+        """
+        Цель: Парсинг твиттера по запросу
+	Вход: self, from_date=dt.date.today() - dt.timedelta(days=1), until_date=dt.date.today(), query='potus', limit=5
+	 - начальная дата, конечная дата, запрос, лимит и мод парсинга u 
+	Выход:self.tweets
+	Автор: Абаполов Филипп
+
+        """
         self.__parse(from_date, until_date, query, limit, mode="hashtag")
 
         return self.tweets
 
     def plot(self, query, mode='user', last_days=1, limit=100):
+    	"""
+    	Цель: Парсинг твиттера по запросу
+	Вход: self, query, mode='user', last_days=1, limit=100 - запрос, мод hashtag/user, количество последних дней, лимит
+	Выход:
+	Автор: Абаполов Филипп
+
+    	"""
         last_days = int(last_days)
         from_date = self.today - dt.timedelta(days=last_days)
         until_date = self.today
