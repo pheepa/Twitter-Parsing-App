@@ -6,6 +6,10 @@ User = get_user_model()
 
 
 class Inquiry(models.Model):
+    """
+    Цель: описать класс модели, которая будет хранится в базе данных
+    Автор: Немашкало Александр
+    """
     objects = models.Manager()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hashtag = models.CharField("хэштег", max_length=100)
@@ -17,6 +21,10 @@ class Inquiry(models.Model):
 
 
 class Account(models.Model):
+    """
+    Цель: Описать модель Аккаунта для парсинга
+    Автор: Немашкало Александр
+    """
     objects = models.Manager()
     name = models.TextField("Название")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -26,6 +34,10 @@ class Account(models.Model):
 
 
 class TweetAccount(models.Model):
+    """
+    Цель: Описать модель твита, спарсенного через аккаунт
+    Автор: Немашкало Александр
+    """
     objects = models.Manager()
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='Atweets', )
     text = models.TextField("текст твита")
@@ -33,6 +45,10 @@ class TweetAccount(models.Model):
 
 
 class TweetInquiry(models.Model):
+    """
+    Цель: Описать модель твита спарсенного через хештег
+    Автор: Немашкало Александр
+    """
     objects = models.Manager()
     inquiry = models.ForeignKey(Inquiry, on_delete=models.CASCADE, related_name='Itweets', )
     text = models.TextField("текст твита")
@@ -40,6 +56,10 @@ class TweetInquiry(models.Model):
 
 
 class Writing(models.Model):
+    """
+    Цель: Описать модель теста,создаваемого пользователем для проверки
+    Автор: Немашкало Александр
+    """
     objects = models.Manager()
     title = models.TextField("Название")
     user = models.ForeignKey(User, on_delete=models.CASCADE)

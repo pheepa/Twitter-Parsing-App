@@ -29,7 +29,6 @@ from train import initializer
 
 class Predictor():
     def __init__(self, initializer):
-<<<<<<< HEAD
         
         """
         Цель: Получение модели из initializer, обработка текста и предсказываение
@@ -39,9 +38,6 @@ class Predictor():
 
         """
         
-=======
-
->>>>>>> 5014a9a0e7a27ad265c6ea44e3822afb1f0a6aa0
         self.word_to_int = initializer.word_to_int
         self.model = initializer.loaded_net
         self.train_on_gpu = False

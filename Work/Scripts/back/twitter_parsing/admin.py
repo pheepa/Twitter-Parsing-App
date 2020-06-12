@@ -1,3 +1,6 @@
+"""
+Регистрация моделей во встроенной админке
+"""
 from django.contrib import admin
 from .models import TweetAccount,TweetInquiry,Inquiry,Writing ,Account
 

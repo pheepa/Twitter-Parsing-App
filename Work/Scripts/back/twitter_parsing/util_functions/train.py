@@ -19,7 +19,6 @@ import torch.nn as nn
 
 class Initializer():
     def __init__(self):
-<<<<<<< HEAD
         """
         Цель: Подготовить датасет для обучения(токенизация и тд.), инициализировать модель
 	Вход: self, data
@@ -27,8 +26,6 @@ class Initializer():
 	Автор: Абаполов Филипп
 
         """
-=======
->>>>>>> 5014a9a0e7a27ad265c6ea44e3822afb1f0a6aa0
         self.word_to_int = word_to_int
         self.train_on_gpu = False
 
@@ -42,7 +39,6 @@ class Initializer():
                                         self.hidden_dim, self.n_lstm_layers)
 
     def train(self):
-<<<<<<< HEAD
     	"""
     	Цель: Загрузка предобученных весов
 	Вход: self
@@ -51,9 +47,6 @@ class Initializer():
 
     	"""
         self.loaded_net.load_state_dict(torch.load(sys.path[0] + "/weights_1_epoch_gpu.pth", 
-=======
-        self.loaded_net.load_state_dict(torch.load(sys.path[0] + "/weights_1_epoch_gpu.pth",
->>>>>>> 5014a9a0e7a27ad265c6ea44e3822afb1f0a6aa0
                                                    map_location=('cpu')))
 
 
@@ -85,7 +78,6 @@ class SentimentLSTM(nn.Module):
 
         self.fc = nn.Linear(in_features=hidden_dim, out_features=output_size)
         self.sig = nn.Sigmoid()
-<<<<<<< HEAD
         
     def forward(self, x, hidden):
 	    """
@@ -125,35 +117,6 @@ class SentimentLSTM(nn.Module):
 	Автор: Абаполов Филипп
 
         """
-=======
-
-    def forward(self, x, hidden):
-        batch_size = x.size(0)
-
-        # embed = self.embedding(x) так было до (Фил - ла пук)
-        embed = self.embedding(x.long())  # так после
-
-        lstm_out, hidden = self.lstm(embed, hidden)
-        # stack up lstm outputs
-        lstm_out = lstm_out.contiguous().view(-1, self.hidden_dim)
-
-        # dropout and fully connected layer
-        out = self.dropout(lstm_out)
-        out = self.fc(out)
-
-        # sigmoid function
-        sig_out = self.sig(out)
-
-        # reshape to be batch_size first
-        sig_out = sig_out.view(batch_size, -1)
-        sig_out = sig_out[:, -1]  # get last batch of labels
-
-        # return last sigmoid output and hidden state
-        return sig_out, hidden
-
-    def init_hidden(self, batch_size):
-
->>>>>>> 5014a9a0e7a27ad265c6ea44e3822afb1f0a6aa0
         # Create two new tensors with sizes n_layers x batch_size x hidden_dim,
         # initialized to zero, for hidden state and cell state of LSTM
         weight = next(self.parameters()).data

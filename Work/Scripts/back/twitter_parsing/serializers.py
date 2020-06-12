@@ -13,6 +13,10 @@ from parsing import parser
 
 # Inquiry
 class InquiryDetailSerializer(serializers.ModelSerializer):
+    """
+    Цель: Здесь сериализуется и указываются те поля модели ,которые будут передаваться на front-end
+    Автор: Немашкало Александр
+    """
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -21,10 +25,22 @@ class InquiryDetailSerializer(serializers.ModelSerializer):
 
 
 class InquiryCreateSerializer(serializers.ModelSerializer):
+    """
+    Цель:В данном классе реализована функция ,которая будет вызываться при создании хештега.
+    Автор: Немашкало Александр
+    """
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def create(self, validated_data):
-
+        """
+        Цель: Вызывается функция, которая парсит данные из твиттера на основе полученных данных от клиента. Создаются экземпляры класса TweetInquiry 
+в базе данных (при каждом добавлении экземпляра вызывается функция, которая будет подсчитывать долю негатива твита). Создается экземпляр класса 
+Inquiry в базе данных, при этом перед добавлением экземпляра вызывается функция для вычисления доли негатива данного запроса на основе данных, 
+полученных  после добавления и определения доли негатива всех экземпляров класса TweetInquiry
+        Вход:self,  validated_data (данные отправленные от Frontend)
+        Выход: экземпляр  класса Inquiry (Добавление в бд новых данных )
+        Автор: Немашкало Александр
+        """
         inquiry = Inquiry()
         inquiry.result_negative = 50
         inquiry.hashtag = validated_data['hashtag']
@@ -62,18 +78,30 @@ class InquiryCreateSerializer(serializers.ModelSerializer):
 
 # Tweets
 class TweetListAccountSerializer(serializers.ModelSerializer):
+    """
+    Цель:Здесь сериализуются и  указываются те поля модели ,которые будут передаваться на front-end при Get запросе для твита
+    Автор: Немашкало Александр
+    """
     class Meta:
         model = TweetAccount
         fields = "__all__"
 
 
 class TweetListInquirySerializer(serializers.ModelSerializer):
+    """
+    Цель:Здесь сериализуются и  указываются те поля модели ,которые будут передаваться на front-end при Get запросе для твита
+    Автор: Немашкало Александр
+    """
     class Meta:
         model = TweetInquiry
         fields = "__all__"
 
 
 class AccountListSerializer(serializers.ModelSerializer):
+    """
+    Цель:Здесь сериализуется и указываются те поля модели ,которые будут передаваться на front-end при множественном Get запросе для аккаунтов
+    Автор: Немашкало Александр
+    """
     Atweets = TweetListAccountSerializer(many=True, read_only=True)
 
     class Meta:
@@ -82,6 +110,10 @@ class AccountListSerializer(serializers.ModelSerializer):
 
 
 class InquiryListSerializer(serializers.ModelSerializer):
+    """
+    Цель:Здесь сериализуется и указываются те поля модели ,которые будут передаваться на front-end при множественном Get запросе для хештегов 
+    Автор: Немашкало Александр
+    """
     Itweets = TweetListInquirySerializer(many=True, read_only=True)
 
     class Meta:
@@ -91,9 +123,23 @@ class InquiryListSerializer(serializers.ModelSerializer):
 
 # Account
 class AccountCreateSerializer(serializers.ModelSerializer):
+    """
+    Цель:В данном классе реализована функция ,которая будет вызываться при создании аккаунта твиттера .
+    Автор: Немашкало Александр
+    """
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def create(self, validated_data):
+        """
+        Цель: Вызывается функция, которая парсит данные из твиттера на основе полученных данных от клиента.Создаются экземпляры класса TweetAccount
+в базе данных ( при каждом добавлении экземпляра вызывается  функция, которая будет подсчитывать долю негатива твита). Создается экземпляр 
+класса Inquiry в базе данных, при этом перед добавлением экземпляра вызывается функция для вычисления доли негатива данного запроса на основе данных, 
+полученных  после добавления и определения доли негатива для всех экземпляров класса TweetAccount
+        Вход:self,  validated_data (данные отправленные от Frontend)
+        Выход: экземпляр  класса Account (Добавление в бд новых данных)
+        Автор: Немашкало Александр
+
+        """
         account = Account()
         account.name = validated_data['name']
         account.user = validated_data['user']
@@ -127,6 +173,10 @@ class AccountCreateSerializer(serializers.ModelSerializer):
 
 
 class AccountDetailSerializer(serializers.ModelSerializer):
+    """
+    Цель: Здесь сериализуется и указываются те поля модели ,которые будут передаваться на front-end
+    Автор: Немашкало Александр
+    """
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -136,9 +186,19 @@ class AccountDetailSerializer(serializers.ModelSerializer):
 
 # Writing
 class WritingDetailSerializer(serializers.ModelSerializer):
+    """
+    Цель: Здесь указываются те поля модели ,которые будут передаваться на front-end при Delete, Put, Post запросе 
+    Автор: Немашкало Александр
+    """
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def update(self, instance, validated_data):
+        """
+        Цель:Изменение экземпляра класса Writing в базе данных, при этом, перед добавлением экземпляра вызывается функция для  вычисления доли негатива данного текста
+        Вход:self,  validated_data (данные отправленные от Frontend)
+        Выход: экземпляр  класса Writing(Добавление в бд новых данных)
+        Автор: Немашкало Александр
+        """
         instance.date = validated_data.get('date', instance.date)
         instance.text = validated_data.get('text', instance.text)
         instance.title = validated_data.get('title', instance.title)
@@ -148,6 +208,12 @@ class WritingDetailSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self, validated_data):
+        """
+        Цель:Создается экземпляр класса Writing в базе данных , при этом   перед добавлением экземпляра вызывается функция для  вычисления доли негатива данного текста
+        Вход:self, instance, validated_data (данные отправленные от Frontend)
+        Выход: экземпляр  класса Writing(Добавление в бд новых данных)
+        Автор: Немашкало Александр
+        """
         instance = Writing()
         instance.text = validated_data['text']
         instance.title = validated_data['title']
@@ -162,6 +228,10 @@ class WritingDetailSerializer(serializers.ModelSerializer):
 
 
 class WritingListSerializer(serializers.ModelSerializer):
+    """
+    Цель:Здесь сериализуются и  указываются те поля модели ,которые будут передаваться на front-end при множественном Get запросе для текстов 
+    Автор: Немашкало Александр
+    """
     class Meta:
         model = Writing
         fields = "__all__"
@@ -169,12 +239,22 @@ class WritingListSerializer(serializers.ModelSerializer):
 
 # User
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Цель: Здесь указываются те поля модели ,которые будут передаваться на front-end при работе с моделью User
+    Автор: Немашкало Александр
+    """
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
+        """
+        Цель: Создать пользователя ,добавить данные в бд, создать для этого пользователя токен
+        Вход:self,  validated_data (данные отправленные от Frontend)
+        Выход: экземпляр  класса User (Добавление в бд новых данных)
+        Автор: Немашкало Александр
+        """
         user = User(
             email=validated_data['email'],
             username=validated_data['username']

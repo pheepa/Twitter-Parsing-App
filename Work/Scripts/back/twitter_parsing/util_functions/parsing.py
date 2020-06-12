@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 5014a9a0e7a27ad265c6ea44e3822afb1f0a6aa0
 import sys
 import re
 

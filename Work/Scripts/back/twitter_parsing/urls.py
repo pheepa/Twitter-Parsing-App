@@ -1,3 +1,8 @@
+"""
+Цель: Список urlpatterns  направляет URL-адреса к представлениям 
+Автор: Немашкало Александр
+"""
+
 from django.urls import path
 from .views import InquiryCreateView, InquiryDetailView, GetInquiriesView
 from .views import WritingCreateView, WritingListView, WritingDetailView
