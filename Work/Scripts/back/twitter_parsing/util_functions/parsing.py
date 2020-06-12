@@ -1,6 +1,6 @@
 import sys
 
-from twitterscraper.query import query_tweets, query_tweets_from_user
+from twitter_scraper.query import query_tweets, query_tweets_from_user
 
 import datetime as dt
 
