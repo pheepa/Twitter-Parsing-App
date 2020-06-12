@@ -44,8 +44,8 @@ class Predictor():
         self.batch_size = initializer.batch_size
 
     def __cleanhtml(self, raw_html):
-    	"""
-    	Цель: Удаление html тегов из текста 
+        """
+    Цель: Удаление html тегов из текста 
 	Вход: self, raw_html
 	Выход:withoutdoublespaces - текст без тегов
 	Автор: Абаполов Филипп
@@ -56,15 +56,13 @@ class Predictor():
         return withoutdoublespaces
 
     def __tokenize_one_sample(self, sent):
-	"""
+	    """
 	Цель: Токенизация
 	Вход: self, sent
 	Выход:sent - токенизированное предложение
 	Автор: Абаполов Филипп
-
-	"""
+    """
         lem = WordNetLemmatizer()
-
         pre_sent = sent.lower()
 
         # delete punctuation and html tags and numbers
