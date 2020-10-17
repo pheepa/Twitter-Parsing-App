@@ -1,5 +1,5 @@
 # Twitter-Parsing-App
-Приложение для парсинга твитов из Twitter и определения их эмоциональной окраски 
+An application for parsing tweets from Twitter and determining their emotional coloring
 
 ## Project setup
 ```
